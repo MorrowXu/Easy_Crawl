@@ -10,7 +10,7 @@ import MySQLdb as mysql
 
 class Outputer(object):
     """
-    html输入器
+    将解析好的data存入mysqldb
     """
 
     def sql_cennector(self, data):
