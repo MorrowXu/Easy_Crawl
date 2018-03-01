@@ -6,7 +6,7 @@
 # @Email   : 464580843@qq.com
 # Create on 2018/3/1 11:36
 import html_downloader
-import html_outputer
+import outputer
 import html_parser
 import url_manager
 import sys
@@ -19,7 +19,7 @@ class SpiderMain(object):
         self.urls = url_manager.UrlManager()
         self.downloader = html_downloader.HtmlDownloader()
         self.parser = html_parser.HtmlParser()
-        self.outputer = html_outputer.HtmlOutputer()
+        self.outputer = outputer.Outputer()
 
     def crawl(self, root_url):
         count = 1
@@ -31,18 +31,14 @@ class SpiderMain(object):
                 html_cont = self.downloader.download(new_url)
                 new_urls, new_data = self.parser.parse(new_url, html_cont)
                 self.urls.add_new_urls(new_urls)
-                self.outputer.collect_data(new_data)
-                count += 1
-                if count == 1000:
-                    break
+                self.outputer.sql_cennector(new_data)
             except Exception as e:
                     print 'craw failed: %s' % e
-
-        self.outputer.output_html()
-
-
+            count += 1
+            if count == 2000:
+                break
 
 if __name__ == "__main__":
-    root_url = 'https://baike.baidu.com/item/python' # 入口url
+    root_url = 'https://baike.baidu.com/item/java' # 入口url
     obj_spider = SpiderMain()
     obj_spider.crawl(root_url)

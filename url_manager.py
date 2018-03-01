@@ -7,7 +7,7 @@
 # Create on 2018/3/1 11:36
 class UrlManager(object):
     """
-    url管理器,负责url的添加,去重
+    url管理器,负责url的添加
     """
     def __init__(self):
         self.new_urls = set()
