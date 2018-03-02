@@ -6,14 +6,16 @@
 # @Email   : 464580843@qq.com
 # Create on 2018/3/1 11:37
 import re
-import urlparse
-# from urllib.parse import urlparse # python3
+try:
+    import urlparse
+except ImportError:
+    import urllib.parse as urlparse # python3
 from bs4 import BeautifulSoup as bs
 
 
 class HtmlParser(object):
     """
-
+    html源文件解析
     """
 
     def _get_new_urls(self, page_url, soup):
@@ -24,10 +26,10 @@ class HtmlParser(object):
         :return:
         """
         new_urls = set()
-        links = soup.find_all('a', href=re.compile(r"/item/\w+$"))
+        links = soup.find_all('a', href=re.compile(r"/item/[\w%]+$"))
         for link in links:
             new_url = link['href']
-            new_full_url = urlparse.urljoin(page_url, new_url)
+            new_full_url = urlparse.urljoin(page_url, new_url) # url自动补齐
             new_urls.add(new_full_url)
         return new_urls
 

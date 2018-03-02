@@ -10,9 +10,11 @@ import outputer
 import html_parser
 import url_manager
 import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
-
+if sys.version[0] == '2':
+    reload(sys)
+    sys.setdefaultencoding('utf8')
+else:
+    pass
 
 class SpiderMain(object):
     def __init__(self):
@@ -27,18 +29,18 @@ class SpiderMain(object):
         while self.urls.has_new_url():
             try:
                 new_url = self.urls.get_new_url()
-                print 'crawl %d : %s' % (count, new_url)
+                print('crawl %d : %s' % (count, new_url))
                 html_cont = self.downloader.download(new_url)
                 new_urls, new_data = self.parser.parse(new_url, html_cont)
                 self.urls.add_new_urls(new_urls)
                 self.outputer.sql_cennector(new_data)
             except Exception as e:
-                    print 'craw failed: %s' % e
+                    print('craw failed: %s' % e)
             count += 1
-            if count == 2000:
+            if count > 100:
                 break
 
 if __name__ == "__main__":
-    root_url = 'https://baike.baidu.com/item/java' # 入口url
+    root_url = 'https://baike.baidu.com/item/长滩岛' # 入口url
     obj_spider = SpiderMain()
     obj_spider.crawl(root_url)

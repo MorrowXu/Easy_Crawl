@@ -5,7 +5,10 @@
 # @File    : outputer.py
 # @Email   : 464580843@qq.com
 # Create on 2018/3/1 11:37
-import MySQLdb as mysql
+try:
+    import MySQLdb as mysql
+except ImportError:
+    import pymysql as mysql # python3
 
 
 class Outputer(object):
@@ -14,18 +17,21 @@ class Outputer(object):
     """
 
     def sql_cennector(self, data):
-        db = mysql.connect(host = 'localhost', user = 'root', passwd = '******', db = 'webcrawler', charset = 'utf8')
+        # 连接mysql数据库
+        db = mysql.connect(host = 'localhost', user = 'root', passwd = '930502', db = 'webcrawler', charset = 'utf8')
         cursor = db.cursor()
-        sql = """INSERT INTO baike_key(key_word, content, url) VALUES('%s', '%s', '%s')""" % (data['title'], data['summary'], data['url'])
+        sql = r'''INSERT INTO baike_key(key_word, content, url) VALUES("%s","%s", "%s")'''\
+                % (data['title'], data['summary'], data['url'])
         # print sql
         try:
             # 执行sql语句
             cursor.execute(sql)
             # 提交到数据库执行
             db.commit()
-            print 'Query OK!'
-        except:
+            print('Query OK! The data is already in mysqldb.')
+        except Exception as e:
             # 发生错误时回滚
+            print('Query failed: %s' % e)
             db.rollback()
         db.close()
         pass

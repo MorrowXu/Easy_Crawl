@@ -23,7 +23,7 @@ class HtmlDownloader(object):
 
         if response.status_code != 200:
 
-            print '页面失败原因: %d \t %s' % (response.status_code, url)
+            print('页面失败原因: %d \t %s' % (response.status_code, url))
             return None
 
         return response.content.decode('utf-8')
