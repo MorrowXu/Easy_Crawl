@@ -9,6 +9,7 @@ import html_downloader
 import outputer
 import html_parser
 import url_manager
+import time
 import sys
 if sys.version[0] == '2':
     reload(sys)
@@ -38,9 +39,15 @@ class SpiderMain(object):
                     print('craw failed: %s' % e)
             count += 1
             if count > 100:
+                self.outputer.sql_closer()
                 break
 
+
 if __name__ == "__main__":
-    root_url = 'https://baike.baidu.com/item/长滩岛' # 入口url
+    root_url = 'https://baike.baidu.com/item/eclipse' # 入口url
+    t1 = time.time()
     obj_spider = SpiderMain()
     obj_spider.crawl(root_url)
+    t2 = time.time()
+    time_cost = t2 - t1
+    print('本次执行一共花费%.2f秒' % time_cost)
