@@ -7,7 +7,7 @@
 # Create on 2018/3/1 11:36
 import downloader
 import outputer
-import html_parser
+import lxml_parser # lxml比bs4解析的更快
 import url_manager
 import time
 import sys
@@ -21,7 +21,7 @@ class SpiderMain(object):
     def __init__(self):
         self.urls = url_manager.UrlManager() # 初始化url管理器
         self.downloader = downloader.Downloader() # 初始化html下载器
-        self.parser = html_parser.HtmlParser() # 初始化html解析器
+        self.parser = lxml_parser.HtmlParser() # 初始化html解析器
         self.outputer = outputer.Outputer() # 初始化mysql连接类
 
     def crawl(self, root_url):
@@ -51,13 +51,13 @@ class SpiderMain(object):
                 f_url = '' # 置空
 
             count += 1
-            if count > 100:
+            if count > 10000:
                 self.outputer.sql_closer() # 爬取完毕,关闭mysql连接
                 break # 跳出循环
 
 
 if __name__ == "__main__":
-    root_url = 'https://baike.baidu.com/item/flash' # 入口url
+    root_url = 'https://baike.baidu.com/item/linux' # 入口url
     t1 = time.time()
     obj_spider = SpiderMain()
     obj_spider.crawl(root_url)
