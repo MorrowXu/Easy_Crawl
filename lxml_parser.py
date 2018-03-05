@@ -45,9 +45,9 @@ class HtmlParser(object):
 
         # <div class="lemma-summary">
         summary_node = html.xpath('//div[@class="lemma-summary"]/div[@class="para"]/text()')
-        para = ''
-        if summary_node[0]:
-            for i in summary_node:para += i;
+        para = '' # 段落
+        for i in summary_node:
+            para += i
         res_data['summary'] = para
         return res_data
 
