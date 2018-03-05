@@ -7,9 +7,9 @@
 # Create on 2018/3/1 11:37
 import re
 try:
-    import urlparse
+    import urlparse # python2.7
 except ImportError:
-    import urllib.parse as urlparse # python3
+    import urllib.parse as urlparse # python3.6
 from bs4 import BeautifulSoup as bs
 
 

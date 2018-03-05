@@ -2,12 +2,12 @@
 # -*- coding: utf-8 -*-
 # @Author  : Morrow
 # @IDE     : PyCharm
-# @File    : html_downloader.py
+# @File    : downloader.py
 # @Email   : 464580843@qq.com
 # Create on 2018/3/1 11:37
 import requests
 
-class HtmlDownloader(object):
+class Downloader(object):
     """
     HTML下载器
     """
@@ -22,7 +22,7 @@ class HtmlDownloader(object):
         response = requests.get(url,headers=self.headers)
 
         if response.status_code != 200:
-
+            # http包头状态码检测
             print('页面失败原因: %d \t %s' % (response.status_code, url))
             return None
 
