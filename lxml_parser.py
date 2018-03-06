@@ -23,9 +23,8 @@ class HtmlParser(object):
         解析url
         """
         new_urls = set()
-        # links = soup.find_all('a', href=re.compile(r"/item/[\w%]+$"))
-        regex = re.compile(r'href="(/item/[\w%]+)"')
-        links = re.findall(regex, html)
+        regex = re.compile(r'href="(/item/[\w%]+)"') # 取出a标签里符合的链接
+        links = re.findall(regex, html) # 返回一个符合正则的url列表
         for link in links:
             new_full_url = urlparse.urljoin(page_url, link) # url自动补齐
             new_urls.add(new_full_url)
@@ -36,18 +35,14 @@ class HtmlParser(object):
         解析数据
         """
         res_data = {}
-        # url
-        res_data['url'] = page_url
+        res_data['url'] = page_url # url
 
-        # < dd class ="lemmaWgt-lemmaTitle-title" > < h1 > Request对象 < / h1 >
         title_node = html.xpath('//dd[@class="lemmaWgt-lemmaTitle-title"]/h1/text()')
         res_data['title'] = title_node[0]
 
-        # <div class="lemma-summary">
         summary_node = html.xpath('//div[@class="lemma-summary"]/div[@class="para"]/text()')
         para = '' # 段落
-        for i in summary_node:
-            para += i
+        for i in summary_node:para += i;
         res_data['summary'] = para
         return res_data
 
