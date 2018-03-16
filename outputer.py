@@ -37,6 +37,17 @@ class Outputer(object):
             print('Query failed: %s' % e)
             self.db.rollback()
 
+    def log_connector(self, log_dict):
+        sql = '''INSERT INTO log(log_time, log_status, url, failed_resaon) VALUES("%s", "%s", "%s","%s")'''\
+                % (log_dict['log_time'], log_dict['log_status'], log_dict['url'], log_dict['failed_reason'])
+        try:
+            self.cursor.execute(sql)
+            self.db.commit()
+        except Exception as e:
+            self.db.rollback()
+            print('日志错误: %s' % e)
+
+
     def sql_closer(self):
         self.db.close()
         print('mysql is already closed...')
