@@ -38,8 +38,13 @@ class Outputer(object):
             self.db.rollback()
 
     def log_connector(self, log_dict):
-        sql = '''INSERT INTO log(log_time, log_status, url, failed_resaon) VALUES("%s", "%s", "%s","%s")'''\
-                % (log_dict['log_time'], log_dict['log_status'], log_dict['url'], log_dict['failed_reason'])
+        sql = '''INSERT INTO log(log_time, log_status, url) VALUES("%s", "%d", "%s")''' \
+              % (log_dict['log_time'], 1, log_dict['url']) # 抓取成功则执行此语句
+
+        if log_dict['log_status'] == 'failed':
+            sql = '''INSERT INTO log(log_time, log_status, url, failed_resaon) VALUES("%s", "%s", "%s", "%s")''' \
+                  % (log_dict['log_time'], 0, log_dict['url'], log_dict['failed_reason']) # 抓取不成功则
+
         try:
             self.cursor.execute(sql)
             self.db.commit()
